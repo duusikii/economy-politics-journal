@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>두식의 경제 일지</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #f8f9fa;
+      color: #191f28;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+    }
+
+    /* 헤더 */
+    header {
+      background: #fff;
+      border-bottom: 1px solid #f2f4f6;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .header-inner {
+      max-width: 1080px; margin: 0 auto;
+      padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .logo {
+      font-size: 1.15rem; font-weight: 800;
+      color: #191f28; text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+    .logo em { color: #3182f6; font-style: normal; }
+    nav { display: flex; gap: 2rem; }
+    nav a {
+      color: #6b7684; text-decoration: none;
+      font-size: 0.9rem; font-weight: 500;
+      transition: color 0.15s;
+    }
+    nav a:hover { color: #191f28; }
+
+    /* 히어로 */
+    .hero {
+      background: #fff;
+      padding: 4rem 2rem 3rem;
+    }
+    .hero-inner { max-width: 1080px; margin: 0 auto; }
+    .hero-tag {
+      display: inline-block;
+      background: #eff6ff; color: #3182f6;
+      font-size: 0.78rem; font-weight: 600;
+      padding: 0.3rem 0.8rem; border-radius: 6px;
+      margin-bottom: 1rem; letter-spacing: 0.3px;
+    }
+    .hero h1 {
+      font-size: 2.6rem; font-weight: 800;
+      letter-spacing: -1.5px; line-height: 1.2;
+      margin-bottom: 0.8rem; color: #191f28;
+    }
+    .hero h1 span { color: #3182f6; }
+    .hero-desc { color: #6b7684; font-size: 1rem; font-weight: 400; }
+
+    /* 지수 카드 */
+    .index-bar {
+      background: #fff;
+      border-bottom: 1px solid #f2f4f6;
+      padding: 1.2rem 2rem;
+    }
+    .index-bar-inner {
+      max-width: 1080px; margin: 0 auto;
+      display: flex; gap: 2rem; flex-wrap: wrap;
+    }
+    .index-item { display: flex; flex-direction: column; gap: 0.1rem; }
+    .index-name { font-size: 0.75rem; color: #6b7684; font-weight: 500; }
+    .index-val { font-size: 1rem; font-weight: 700; color: #191f28; }
+    .index-chg { font-size: 0.78rem; font-weight: 600; }
+    .up { color: #f04452; }
+    .down { color: #3182f6; }
+    .divider { width: 1px; background: #f2f4f6; align-self: stretch; }
+
+    /* 메인 레이아웃 */
+    .container {
+      max-width: 1080px; margin: 2rem auto;
+      padding: 0 2rem;
+      display: grid; grid-template-columns: 1fr 320px; gap: 2rem;
+    }
+
+    /* 섹션 헤더 */
+    .sec-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .sec-title { font-size: 1rem; font-weight: 700; color: #191f28; }
+    .sec-more { font-size: 0.82rem; color: #6b7684; text-decoration: none; }
+    .sec-more:hover { color: #3182f6; }
+
+    /* 메인 카드 */
+    .main-card {
+      background: #fff; border-radius: 16px;
+      overflow: hidden; margin-bottom: 1rem;
+      border: 1px solid #f2f4f6;
+      text-decoration: none; color: inherit; display: block;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .main-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.08); transform: translateY(-2px); }
+    .card-img {
+      width: 100%; height: 180px;
+      background: linear-gradient(135deg, #3182f6, #6366f1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+    }
+    .card-body { padding: 1.4rem; }
+    .card-tags { display: flex; gap: 0.4rem; margin-bottom: 0.6rem; }
+    .card-tag {
+      font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+    }
+    .t-market { background: #eff6ff; color: #3182f6; }
+    .t-crypto { background: #fdf4ff; color: #9333ea; }
+    .t-politics { background: #fff7ed; color: #ea580c; }
+    .t-idea { background: #f0fdf4; color: #16a34a; }
+    .card-date { font-size: 0.75rem; color: #6b7684; }
+    .card-title { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.3px; margin: 0.4rem 0; line-height: 1.4; }
+    .card-desc { font-size: 0.88rem; color: #6b7684; line-height: 1.6; }
+
+    /* 리스트 카드 */
+    .list-card {
+      background: #fff; border-radius: 12px;
+      padding: 1.2rem 1.4rem; margin-bottom: 0.7rem;
+      border: 1px solid #f2f4f6;
+      text-decoration: none; color: inherit; display: flex;
+      align-items: flex-start; gap: 1rem;
+      transition: box-shadow 0.2s;
+    }
+    .list-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+    .list-num {
+      font-size: 1.1rem; font-weight: 800; color: #e8ecef;
+      min-width: 24px; padding-top: 2px;
+    }
+    .list-content { flex: 1; }
+    .list-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.2rem; line-height: 1.4; }
+    .list-meta { font-size: 0.78rem; color: #6b7684; display: flex; gap: 0.6rem; }
+
+    /* 사이드바 */
+    .sidebar { display: flex; flex-direction: column; gap: 1.2rem; }
+    .widget {
+      background: #fff; border-radius: 16px;
+      padding: 1.4rem; border: 1px solid #f2f4f6;
+    }
+    .widget-title {
+      font-size: 0.82rem; font-weight: 700; color: #6b7684;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      margin-bottom: 1rem;
+    }
+
+    /* 오늘의 한마디 */
+    .quote-box {
+      background: linear-gradient(135deg, #3182f6 0%, #6366f1 100%);
+      border-radius: 16px; padding: 1.6rem;
+      color: #fff; margin-bottom: 1.2rem;
+    }
+    .quote-label { font-size: 0.75rem; font-weight: 600; opacity: 0.7; margin-bottom: 0.6rem; }
+    .quote-text { font-size: 1rem; font-weight: 600; line-height: 1.6; }
+    .quote-source { font-size: 0.78rem; opacity: 0.7; margin-top: 0.6rem; }
+
+    /* 카테고리 */
+    .cat-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.7rem 0; border-bottom: 1px solid #f2f4f6;
+      text-decoration: none; color: inherit; transition: all 0.15s;
+    }
+    .cat-item:last-child { border-bottom: none; }
+    .cat-item:hover .cat-name { color: #3182f6; }
+    .cat-left { display: flex; align-items: center; gap: 0.7rem; }
+    .cat-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
+    .cat-name { font-size: 0.9rem; font-weight: 600; }
+    .cat-count { font-size: 0.78rem; color: #6b7684; }
+    .cat-arrow { color: #c8cdd4; font-size: 0.8rem; }
+
+    /* 키워드 태그 */
+    .keyword-cloud { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .keyword {
+      font-size: 0.8rem; font-weight: 500;
+      padding: 0.3rem 0.8rem; border-radius: 20px;
+      background: #f2f4f6; color: #4e5968;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .keyword:hover { background: #eff6ff; color: #3182f6; }
+
+    footer {
+      background: #fff; border-top: 1px solid #f2f4f6;
+      text-align: center; padding: 2rem;
+      color: #6b7684; font-size: 0.82rem; margin-top: 3rem;
+    }
+    footer a { color: #3182f6; text-decoration: none; }
+
+    @media (max-width: 768px) {
+      .container { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 1.8rem; }
+      .index-bar-inner { gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="logo" href="/">두식의 <em>경제일지</em></a>
+    <nav>
+      <a href="#briefing">브리핑</a>
+      <a href="#market">시장분석</a>
+      <a href="#crypto">크립토</a>
+      <a href="#politics">정치</a>
+    </nav>
+  </div>
+</header>
+
+<!-- 지수 바 -->
+<div class="index-bar">
+  <div class="index-bar-inner">
+    <div class="index-item">
+      <span class="index-name">S&P 500</span>
+      <span class="index-val">6,878</span>
+      <span class="index-chg down">▼ -0.43%</span>
+    </div>
+    <div class="divider"></div>
+    <div class="index-item">
+      <span class="index-name">나스닥</span>
+      <span class="index-val">-</span>
+      <span class="index-chg" style="color:#6b7684">업데이트 중</span>
+    </div>
+    <div class="divider"></div>
+    <div class="index-item">
+      <span class="index-name">다우존스</span>
+      <span class="index-val">48,978</span>
+      <span class="index-chg down">▼ -1.05%</span>
+    </div>
+    <div class="divider"></div>
+    <div class="index-item">
+      <span class="index-name">BTC</span>
+      <span class="index-val">-</span>
+      <span class="index-chg" style="color:#6b7684">업데이트 중</span>
+    </div>
+    <div class="divider"></div>
+    <div class="index-item">
+      <span class="index-name">원/달러</span>
+      <span class="index-val">-</span>
+      <span class="index-chg" style="color:#6b7684">업데이트 중</span>
+    </div>
+  </div>
+</div>
+
+<!-- 히어로 -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">📰 매일 아침 9시 업데이트</div>
+    <h1>경제와 시장을<br /><span>쉽게 이해하는</span> 일지</h1>
+    <p class="hero-desc">미국 주식, 크립토, 글로벌 경제 흐름을 매일 기록합니다.</p>
+  </div>
+</div>
+
+<div class="container">
+  <main>
+    <!-- 오늘의 한마디 -->
+    <div class="quote-box">
+      <div class="quote-label">💬 오늘의 한마디</div>
+      <div class="quote-text">"인플레가 다시 고개를 들었다. 당분간 금리 인하 기대는 접어두고 방어적으로 포지셔닝할 때."</div>
+      <div class="quote-source">— 2026.02.28 시장 브리핑</div>
+    </div>
+
+    <!-- 최신 브리핑 -->
+    <div id="briefing">
+      <div class="sec-header">
+        <span class="sec-title">📊 최신 브리핑</span>
+        <a href="market/us-stock/" class="sec-more">전체보기 →</a>
+      </div>
+
+      <a class="main-card" href="market/us-stock/">
+        <div class="card-img">📉</div>
+        <div class="card-body">
+          <div class="card-tags">
+            <span class="card-tag t-market">미국주식</span>
+            <span class="card-date">2026-02-28</span>
+          </div>
+          <div class="card-title">PPI 쇼크 — 인플레이션 재점화 우려로 다우 500pt 급락</div>
+          <div class="card-desc">생산자물가지수(PPI)가 예상을 상회하며 스태그플레이션 공포가 시장을 덮쳤습니다. S&P500 -0.43%, 다우존스 -1.05% 하락 마감.</div>
+        </div>
+      </a>
+    </div>
+
+    <!-- 주요 뉴스 -->
+    <div id="market" style="margin-top: 2rem;">
+      <div class="sec-header">
+        <span class="sec-title">📰 주요 뉴스</span>
+      </div>
+
+      <a class="list-card" href="#">
+        <div class="list-num">01</div>
+        <div class="list-content">
+          <div class="list-title">PPI 예상 상회 → 인플레이션 재점화 & 스태그플레이션 공포 부상</div>
+          <div class="list-meta"><span class="card-tag t-market" style="font-size:0.7rem;padding:0.1rem 0.5rem;">미국주식</span><span>2026-02-28</span></div>
+        </div>
+      </a>
+      <a class="list-card" href="#">
+        <div class="list-num">02</div>
+        <div class="list-content">
+          <div class="list-title">방어주 로테이션 — 투자자들, 성장주에서 헬스케어·유틸리티로 이동</div>
+          <div class="list-meta"><span class="card-tag t-market" style="font-size:0.7rem;padding:0.1rem 0.5rem;">섹터분석</span><span>2026-02-28</span></div>
+        </div>
+      </a>
+      <a class="list-card" href="#">
+        <div class="list-num">03</div>
+        <div class="list-content">
+          <div class="list-title">다우존스 500pt 이상 급락 — 광범위한 매도세, 하락 종목 62% 육박</div>
+          <div class="list-meta"><span class="card-tag t-market" style="font-size:0.7rem;padding:0.1rem 0.5rem;">미국주식</span><span>2026-02-28</span></div>
+        </div>
+      </a>
+      <a class="list-card" href="#">
+        <div class="list-num">04</div>
+        <div class="list-content">
+          <div class="list-title">더 많은 소식은 매일 아침 업데이트됩니다</div>
+          <div class="list-meta"><span style="color:#6b7684">매일 09:00 갱신</span></div>
+        </div>
+      </a>
+    </div>
+  </main>
+
+  <!-- 사이드바 -->
+  <aside class="sidebar">
+    <div class="widget">
+      <div class="widget-title">카테고리</div>
+      <a class="cat-item" href="market/us-stock/">
+        <div class="cat-left">
+          <div class="cat-icon" style="background:#eff6ff">📊</div>
+          <div>
+            <div class="cat-name">미국 주식</div>
+            <div class="cat-count">매일 업데이트</div>
+          </div>
+        </div>
+        <span class="cat-arrow">›</span>
+      </a>
+      <a class="cat-item" href="#">
+        <div class="cat-left">
+          <div class="cat-icon" style="background:#fdf4ff">🪙</div>
+          <div>
+            <div class="cat-name">크립토</div>
+            <div class="cat-count">준비중</div>
+          </div>
+        </div>
+        <span class="cat-arrow">›</span>
+      </a>
+      <a class="cat-item" href="#">
+        <div class="cat-left">
+          <div class="cat-icon" style="background:#fff7ed">🌍</div>
+          <div>
+            <div class="cat-name">글로벌 정치</div>
+            <div class="cat-count">준비중</div>
+          </div>
+        </div>
+        <span class="cat-arrow">›</span>
+      </a>
+      <a class="cat-item" href="#">
+        <div class="cat-left">
+          <div class="cat-icon" style="background:#f0fdf4">💡</div>
+          <div>
+            <div class="cat-name">투자 아이디어</div>
+            <div class="cat-count">준비중</div>
+          </div>
+        </div>
+        <span class="cat-arrow">›</span>
+      </a>
+    </div>
+
+    <div class="widget">
+      <div class="widget-title">🔥 키워드</div>
+      <div class="keyword-cloud">
+        <span class="keyword">PPI</span>
+        <span class="keyword">인플레이션</span>
+        <span class="keyword">금리</span>
+        <span class="keyword">S&P500</span>
+        <span class="keyword">방어주</span>
+        <span class="keyword">나스닥</span>
+        <span class="keyword">달러</span>
+        <span class="keyword">BTC</span>
+        <span class="keyword">연준</span>
+        <span class="keyword">ETF</span>
+      </div>
+    </div>
+
+    <div class="widget">
+      <div class="widget-title">🔗 바로가기</div>
+      <a class="cat-item" href="https://duusikii.github.io/dev-tech-notes/" target="_blank">
+        <div class="cat-left">
+          <div class="cat-icon" style="background:#f8f9fa">💻</div>
+          <div><div class="cat-name">개발 노트</div></div>
+        </div>
+        <span class="cat-arrow">›</span>
+      </a>
+      <a class="cat-item" href="https://github.com/duusikii" target="_blank">
+        <div class="cat-left">
+          <div class="cat-icon" style="background:#f8f9fa">⌨️</div>
+          <div><div class="cat-name">GitHub</div></div>
+        </div>
+        <span class="cat-arrow">›</span>
+      </a>
+    </div>
+  </aside>
+</div>
+
+<footer>
+  <p>© 2026 두식의 경제일지 · <a href="https://github.com/duusikii/economy-politics-journal">GitHub</a></p>
+</footer>
+
+</body>
+</html>
